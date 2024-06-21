@@ -27,10 +27,12 @@ public class SecurityConfigurations {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))//Le indicamos a spring el tipo de sesion
-                .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/login")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
+                .authorizeRequests()
+                .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                .requestMatchers("/swagger-ui.html", "/v3/api-docs/**","/swagger-ui/**").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

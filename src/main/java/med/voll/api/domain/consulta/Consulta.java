@@ -31,4 +31,29 @@ public class Consulta {
     private Paciente paciente;
 
     private LocalDateTime fecha;
-}
+
+    @Column(name = "motivo_cancelamiento")
+    @Enumerated(EnumType.STRING)
+    private MotivoCancelamiento motivoCancelamiento;
+
+    //Aca creamos un constructor ya que nosostros dentro del servicio de AgendaDeConsultaService(en la linea 58)
+    //estabamos pasando el id como nulo y tendriamos que agregar tb el motivo de cancelamiento como nulo
+    //al crear este constructor solamente pasamos los datos que queremos sin agregar nulls innnecesarios
+    //en nuestra clase AgendaDeConsultaService
+
+    public Consulta( Medico medico, Paciente paciente, LocalDateTime fecha) {
+        this.medico=medico;
+        this.paciente=paciente;
+        this.fecha=fecha;
+    }
+
+
+    public void cancelar(MotivoCancelamiento motivo) {
+        this.motivoCancelamiento = motivo;
+    }
+    }
+
+
+
+
+

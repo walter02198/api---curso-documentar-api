@@ -1,6 +1,7 @@
 package med.voll.api.controller;
 
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import med.voll.api.domain.direccion.DatosDireccion;
 import med.voll.api.domain.medico.*;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
@@ -22,6 +23,7 @@ import static org.springframework.data.web.config.EnableSpringDataWebSupport.Pag
 @RestController
 @RequestMapping("/medicos")
 @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO)
+@SecurityRequirement(name = "bearer-key")
 public class MedicoController {
 
     @Autowired
