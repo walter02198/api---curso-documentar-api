@@ -1,6 +1,7 @@
 package med.voll.api.controller;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import med.voll.api.domain.direccion.DatosDireccion;
 import med.voll.api.domain.medico.*;
@@ -29,6 +30,7 @@ public class MedicoController {
     @Autowired
     private MedicoRepository medicoRepository;
     @PostMapping ()
+    @Operation(summary = "Registra un nuevo medico en la base de datos")
     public ResponseEntity<DatosRespuestaMedicos>
     registrarMedicos(@RequestBody @Valid DatosRegistrosMedicos datosRegistrosMedicos,
                                            UriComponentsBuilder uriComponentsBuilder) {
@@ -46,6 +48,7 @@ public class MedicoController {
     }
 
     @GetMapping
+    @Operation(summary = "Obtiene el listado de medicos")
     public ResponseEntity<Page<DatosListadoMedicos>> listadoMedicos(@PageableDefault(size = 20) Pageable paginacion) { //10 por defecto Pageable paginacion){
         //return medicoRepository.findAll(paginacion).map(DatosListadoMedicos::new);
         return ResponseEntity.ok().body(medicoRepository.findByActivoTrue(paginacion).map(DatosListadoMedicos::new));
@@ -53,6 +56,7 @@ public class MedicoController {
     }
     @PutMapping
     @Transactional
+    @Operation(summary = "Actualiza los datos de un medico existente")
     public ResponseEntity actualizaMedicos(@RequestBody @Valid DatosActualizarMedicos datosActualizarMedicos){
         Medico medico = medicoRepository.getReferenceById(datosActualizarMedicos.id());
         medico.actualizarDatos(datosActualizarMedicos);
@@ -68,6 +72,7 @@ public class MedicoController {
     //Delete logico
     @DeleteMapping("/{id}")
     @Transactional
+    @Operation(summary = "Elimina un medico registrado - inactivo")
     public ResponseEntity eliminarMedicos(@PathVariable Long id){
         Medico medico = medicoRepository.getReferenceById(id);
         medico.desactivarMedico();
@@ -81,6 +86,7 @@ public class MedicoController {
     }
     @GetMapping("/{id}")
     @Transactional
+    @Operation(summary = "Obtiene los registros del medico con ID")
     public ResponseEntity RetornarDatosMedicos(@PathVariable Long id) {
         Medico medico = medicoRepository.getReferenceById(id);
         medico.desactivarMedico();
